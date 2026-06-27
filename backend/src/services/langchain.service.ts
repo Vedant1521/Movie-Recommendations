@@ -6,6 +6,8 @@ import { ChatOpenAI } from "@langchain/openai";
 import { RecommendationsSchema } from "../schemas/movie.schema";
 
 function getChatModel() {
+  // Retrieves the configured LLM provider from environment variables.
+  // Defaults to "openai" if LLM_PROVIDER is not set (is null or undefined).
   const provider = process.env.LLM_PROVIDER ?? "openai";
 
   if (provider === "google") {
@@ -63,7 +65,7 @@ export async function getRecommendations(input: {
   const chain = promptTemplate.pipe(model);
 
   // .pipe(model) = LCEL - langchain expression langauage
-  // connecys componets into a chain
+  // connects components into a chain
   // input - promptteample  -> variables - call model (gemini) - response
 
   const response = await chain.invoke({
