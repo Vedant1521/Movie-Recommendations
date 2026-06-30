@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Clapperboard, Loader2, Sparkles, Wand2 } from "lucide-react";
+import Link from "next/link";
+import { BookOpen, Clapperboard, Loader2, Sparkles, WandSparkles } from "lucide-react";
 
 import { MovieCard } from "@/components/movie-card";
 import { MovieCardSkeleton } from "@/components/movie-card-skeleton";
@@ -17,6 +18,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Movie } from "@/types/movie";
 import { fetchMovies } from "@/lib/api";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const GENRES = [
   "thriller",
@@ -77,28 +79,40 @@ export function RecommendationApp() {
   }
 
   return (
-    <div className="min-h-svh bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-100 via-indigo-50 to-sky-50">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="min-h-svh bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-100 via-indigo-50 to-sky-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 transition-colors duration-300">
+      <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        {/* Floating Top Nav / Actions */}
+        <div className="absolute right-4 top-4 sm:right-6 lg:right-8 flex items-center gap-3">
+          <Link
+            href="/showcase"
+            className="inline-flex items-center gap-1.5 rounded-full border border-violet-200/60 bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-violet-700 shadow-sm backdrop-blur transition-all hover:bg-white dark:border-slate-800/80 dark:bg-slate-900/70 dark:text-violet-300 dark:hover:bg-slate-900"
+          >
+            <BookOpen className="size-3.5" />
+            Concepts
+          </Link>
+          <ThemeToggle />
+        </div>
+
         <header className="mb-10 text-center">
-          <div className="mb-4 text-5xl inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-sm font-medium text-violet-700 shadow-sm ring-1 ring-violet-200/60 backdrop-blur">
-            <Sparkles className="size-10 text-amber-500" />
-            {/* LangChain Crash Course */}
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-sm font-medium text-violet-700 shadow-sm ring-1 ring-violet-200/60 backdrop-blur dark:bg-slate-900/70 dark:text-violet-300 dark:ring-slate-800/80">
+            <Sparkles className="size-4 text-amber-500" />
+            {/* AI Recommendations Dashboard */}
           </div>
-          <h1 className="bg-gradient-to-r from-violet-700 via-indigo-600 to-sky-600 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
-            LangChain Crash Course: AI Movie Picks
+          <h1 className="bg-gradient-to-r from-violet-700 via-indigo-600 to-sky-600 dark:from-violet-400 dark:via-indigo-300 dark:to-sky-300 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
+            AI Movie Recommendations
           </h1>
         </header>
 
         <div className="grid gap-8 lg:grid-cols-[360px_1fr]">
-          <aside className="h-fit rounded-2xl border border-white/80 bg-white/80 p-6 shadow-xl shadow-violet-200/40 backdrop-blur-md">
+          <aside className="h-fit rounded-2xl border border-white/80 bg-white/80 p-6 shadow-xl shadow-violet-200/40 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/80 dark:shadow-none">
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="flex items-center gap-2 text-violet-800">
+              <div className="flex items-center gap-2 text-violet-800 dark:text-violet-300">
                 <Clapperboard className="size-5" />
                 <h2 className="font-semibold">Your preferences</h2>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="prompt" className="text-slate-700">
+                <Label htmlFor="prompt" className="text-slate-700 dark:text-slate-300">
                   What are you in the mood for?
                 </Label>
                 <Textarea
@@ -107,15 +121,15 @@ export function RecommendationApp() {
                   onChange={(e) => setUserPrompt(e.target.value)}
                   placeholder="Suggest 3 thriller movies for a rainy night..."
                   rows={4}
-                  className="resize-none border-violet-200/60 bg-violet-50/30 focus-visible:ring-violet-400/30"
+                  className="resize-none border-violet-200/60 bg-violet-50/30 focus-visible:ring-violet-400/30 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-100 dark:focus-visible:ring-violet-500/30"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label className="text-slate-700">Genre</Label>
+                  <Label className="text-slate-700 dark:text-slate-300">Genre</Label>
                   <Select value={genre} onValueChange={(v) => v && setGenre(v)}>
-                    <SelectTrigger className="w-full border-violet-200/60 bg-white">
+                    <SelectTrigger className="w-full border-violet-200/60 bg-white dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -128,9 +142,9 @@ export function RecommendationApp() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-slate-700">Mood</Label>
+                  <Label className="text-slate-700 dark:text-slate-300">Mood</Label>
                   <Select value={mood} onValueChange={(v) => v && setMood(v)}>
-                    <SelectTrigger className="w-full border-violet-200/60 bg-white">
+                    <SelectTrigger className="w-full border-violet-200/60 bg-white dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -145,9 +159,9 @@ export function RecommendationApp() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-slate-700">How many movies?</Label>
+                <Label className="text-slate-700 dark:text-slate-300">How many movies?</Label>
                 <Select value={count} onValueChange={(v) => v && setCount(v)}>
-                  <SelectTrigger className="w-full border-violet-200/60 bg-white">
+                  <SelectTrigger className="w-full border-violet-200/60 bg-white dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -163,7 +177,7 @@ export function RecommendationApp() {
               <Button
                 type="submit"
                 disabled={loading || !userPrompt.trim()}
-                className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-300/50 hover:from-violet-700 hover:to-indigo-700"
+                className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-300/50 dark:shadow-none hover:from-violet-700 hover:to-indigo-700"
                 size="lg"
               >
                 {loading ? (
@@ -173,7 +187,7 @@ export function RecommendationApp() {
                   </>
                 ) : (
                   <>
-                    <Wand2 />
+                    <WandSparkles />
                     Get recommendations
                   </>
                 )}
@@ -183,7 +197,7 @@ export function RecommendationApp() {
 
           <main>
             {error && (
-              <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+              <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/20 dark:text-rose-300">
                 {error}
               </div>
             )}
@@ -209,14 +223,14 @@ export function RecommendationApp() {
             )}
 
             {!loading && !error && movies.length === 0 && !hasSearched && (
-              <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed border-violet-200/80 bg-white/50 px-6 text-center backdrop-blur-sm">
-                <div className="mb-4 flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-indigo-100">
-                  <Clapperboard className="size-8 text-violet-600" />
+              <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed border-violet-200/80 bg-white/50 px-6 text-center backdrop-blur-sm dark:border-slate-800/80 dark:bg-slate-900/40">
+                <div className="mb-4 flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-indigo-100 dark:from-slate-800 dark:to-slate-900">
+                  <Clapperboard className="size-8 text-violet-600 dark:text-violet-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-slate-800">
+                <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">
                   Your picks will appear here
                 </h3>
-                <p className="mt-2 max-w-sm text-sm text-slate-500">
+                <p className="mt-2 max-w-sm text-sm text-slate-500 dark:text-slate-400">
                   Set your genre, mood, and describe what you want — then hit
                   Get recommendations.
                 </p>
@@ -224,7 +238,7 @@ export function RecommendationApp() {
             )}
 
             {!loading && !error && movies.length === 0 && hasSearched && (
-              <div className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-10 text-center text-amber-800">
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-10 text-center text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-300">
                 No movies returned. Try a different prompt.
               </div>
             )}

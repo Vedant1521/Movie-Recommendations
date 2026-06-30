@@ -28,6 +28,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type ConceptCard = {
   id: string;
@@ -172,7 +173,7 @@ function ConceptCardItem({
   return (
     <Card
       className={cn(
-        "group overflow-hidden border-white/80 bg-white/90 shadow-lg backdrop-blur-sm",
+        "group overflow-hidden border-white/80 bg-white/90 shadow-lg backdrop-blur-sm dark:border-slate-800/80 dark:bg-slate-900/90 dark:shadow-none",
         "transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl",
         "animate-in fade-in slide-in-from-bottom-4 fill-mode-both",
       )}
@@ -193,25 +194,25 @@ function ConceptCardItem({
             {concept.section}
           </Badge>
         </div>
-        <CardTitle className="mt-3 text-lg text-slate-900">
+        <CardTitle className="mt-3 text-lg text-slate-900 dark:text-slate-100">
           {concept.title}
         </CardTitle>
-        <CardDescription className="text-sm leading-relaxed text-slate-600">
+        <CardDescription className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
           {concept.description}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         {concept.analogy && (
-          <p className="rounded-lg bg-violet-50 px-3 py-2 text-xs italic text-violet-700">
+          <p className="rounded-lg bg-violet-50 px-3 py-2 text-xs italic text-violet-700 dark:bg-slate-950/80 dark:text-violet-400">
             &ldquo;{concept.analogy}&rdquo;
           </p>
         )}
         {concept.flow && (
-          <div className="rounded-lg border border-slate-200/80 bg-slate-50 px-3 py-2">
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+          <div className="rounded-lg border border-slate-200/80 bg-slate-50 px-3 py-2 dark:border-slate-800 dark:bg-slate-950/40">
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
               Flow
             </p>
-            <p className="font-mono text-xs text-slate-700">{concept.flow}</p>
+            <p className="font-mono text-xs text-slate-700 dark:text-slate-300">{concept.flow}</p>
           </div>
         )}
         {concept.code && (
@@ -226,28 +227,33 @@ function ConceptCardItem({
 
 export function ConceptsShowcase() {
   return (
-    <div className="relative min-h-svh overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-100 via-indigo-50 to-sky-50">
+    <div className="relative min-h-svh overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-100 via-indigo-50 to-sky-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 transition-colors duration-300">
       {/* floating orbs */}
-      <div className="pointer-events-none absolute -left-32 top-20 size-64 animate-pulse rounded-full bg-violet-300/30 blur-3xl" />
+      <div className="pointer-events-none absolute -left-32 top-20 size-64 animate-pulse rounded-full bg-violet-300/30 dark:bg-violet-950/20 blur-3xl" />
       <div
-        className="pointer-events-none absolute -right-24 top-1/3 size-72 animate-pulse rounded-full bg-sky-300/25 blur-3xl"
+        className="pointer-events-none absolute -right-24 top-1/3 size-72 animate-pulse rounded-full bg-sky-300/25 dark:bg-sky-950/15 blur-3xl"
         style={{ animationDelay: "1s" }}
       />
       <div
-        className="pointer-events-none absolute bottom-20 left-1/3 size-56 animate-pulse rounded-full bg-amber-200/30 blur-3xl"
+        className="pointer-events-none absolute bottom-20 left-1/3 size-56 animate-pulse rounded-full bg-amber-200/30 dark:bg-amber-950/20 blur-3xl"
         style={{ animationDelay: "2s" }}
       />
 
       <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* Floating Top Action Bar */}
+        <div className="absolute right-4 top-4 sm:right-6 lg:right-8 flex items-center gap-3">
+          <ThemeToggle />
+        </div>
+
         <header className="mb-12 text-center animate-in fade-in slide-in-from-top-4 duration-700">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-sm font-medium text-violet-700 shadow-sm ring-1 ring-violet-200/60 backdrop-blur">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-sm font-medium text-violet-700 shadow-sm ring-1 ring-violet-200/60 backdrop-blur dark:bg-slate-900/70 dark:text-violet-300 dark:ring-slate-800/80">
             <Layers className="size-4 text-indigo-500" />
             LangChain JS/TS Crash Course
           </div>
-          <h1 className="bg-gradient-to-r from-violet-700 via-indigo-600 to-sky-600 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
+          <h1 className="bg-gradient-to-r from-violet-700 via-indigo-600 to-sky-600 dark:from-violet-400 dark:via-indigo-300 dark:to-sky-300 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
             Concepts Showcase
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600 dark:text-slate-400">
             Every card maps to something we build in the Node.js backend. Use
             this page during your demo to explain the journey from raw LLM text
             to structured movie cards.
@@ -265,7 +271,7 @@ export function ConceptsShowcase() {
             </Link>
             <Badge
               variant="outline"
-              className="border-indigo-200 bg-white/80 px-3 py-1.5 text-indigo-700"
+              className="border-indigo-200 bg-white/80 px-3 py-1.5 text-indigo-700 dark:border-slate-800 dark:bg-slate-900/60 dark:text-indigo-300"
             >
               <Zap className="mr-1 size-3" />
               {CONCEPTS.length} concepts covered
@@ -280,10 +286,10 @@ export function ConceptsShowcase() {
           return (
             <section key={section} className="mb-12">
               <div className="mb-5 flex items-center gap-3">
-                <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-500">
+                <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                   {section}
                 </h2>
-                <div className="h-px flex-1 bg-gradient-to-r from-violet-200 to-transparent" />
+                <div className="h-px flex-1 bg-gradient-to-r from-violet-200 to-transparent dark:from-violet-900/50" />
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((concept, i) => (
@@ -299,14 +305,14 @@ export function ConceptsShowcase() {
         })}
 
         {/* architecture summary card */}
-        <Card className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both overflow-hidden border-white/80 bg-gradient-to-br from-white/95 to-violet-50/80 shadow-xl duration-1000">
-          <div className="h-1.5 bg-gradient-to-r from-violet-500 via-indigo-500 to-sky-500" />
+        <Card className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both overflow-hidden border-white/80 bg-gradient-to-br from-white/95 to-violet-50/80 shadow-xl duration-1000 dark:border-slate-800/80 dark:from-slate-900 dark:to-slate-950">
+          <div className="h-1.5 bg-gradient-to-r from-violet-500 via-indigo-50 to-sky-50" />
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-xl text-slate-900">
-              <Braces className="size-5 text-violet-600" />
+            <CardTitle className="flex items-center gap-2 text-xl text-slate-900 dark:text-slate-100">
+              <Braces className="size-5 text-violet-600 dark:text-violet-400" />
               Full App Architecture
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="dark:text-slate-400">
               What viewers see in the live demo — separation of concerns
             </CardDescription>
           </CardHeader>
